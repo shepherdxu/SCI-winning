@@ -1,0 +1,5 @@
+# 忽略 .ssh 文件夹
+/.ssh/
+
+# 忽略 DATASET_Synapse 文件夹
+/DATASET_Synapse/
