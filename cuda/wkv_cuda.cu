@@ -5,7 +5,7 @@
 #define EPS (1e-6)
 #define TOKEN_SPLIT (512 / CHANNEL_SPLIT) // the number of split tokens
 #define IDEAL_T_LEN (Tmax / TOKEN_SPLIT)
-
+#define T_MAX (51264)
 
 template <typename F>
 __global__ void kernel_forward(const int B, const int T, const int C,
