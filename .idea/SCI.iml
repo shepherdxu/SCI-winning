@@ -5,7 +5,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.ssh" />
       <excludeFolder url="file://$MODULE_DIR$/DATASET_Synapse/unetr_pp_raw" />
     </content>
-    <orderEntry type="jdk" jdkName="VFT" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="SCI" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
