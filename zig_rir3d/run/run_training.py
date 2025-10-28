@@ -15,9 +15,9 @@
 
 import argparse
 from batchgenerators.utilities.file_and_folder_operations import *
-from unetr_pp.run.default_configuration import get_default_configuration
-from unetr_pp.paths import default_plans_identifier
-from unetr_pp.utilities.task_name_id_conversion import convert_id_to_task_name
+from default_configuration import get_default_configuration
+from ..paths import default_plans_identifier
+from ..utilities.task_name_id_conversion import convert_id_to_task_name
 import numpy as np
 import torch
 

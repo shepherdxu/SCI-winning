@@ -13,11 +13,10 @@
 #    limitations under the License.
 
 
-import unetr_pp
-from unetr_pp.paths import network_training_output_dir, preprocessing_output_dir, default_plans_identifier
+from ..paths import network_training_output_dir, preprocessing_output_dir, default_plans_identifier
 from batchgenerators.utilities.file_and_folder_operations import *
-from unetr_pp.experiment_planning.summarize_plans import summarize_plans
-from unetr_pp.training.model_restore import recursive_find_python_class
+from ..experiment_planning.summarize_plans import summarize_plans
+from ..training.model_restore import recursive_find_python_class
 import numpy as np
 import pickle
 
