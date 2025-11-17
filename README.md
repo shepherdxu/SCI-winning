@@ -141,7 +141,7 @@ The following scripts can be used for training our Zig-RiR model on the datasets
 CUDA_VISIBLE_DEVICES=0 python train.py --dataset ISIC16 --end_epoch 200 --warm_epochs 5 --lr 0.0003 --train_batchsize 8 --crop_size 512 512 --nclass 2
 
 ###############3D dataset############### We refer to the official UNETR++ repository when training 3D datasets. 
-CUDA_VISIBLE_DEVICES=0 python /zig_rir3d/run/run_training.py 3d_fullres unetr_pp_trainer_synapse 2 0
+CUDA_VISIBLE_DEVICES=0 python -m zig_rir3d/run/run_training.py 3d_fullres unetr_pp_trainer_synapse 2 0
 CUDA_VISIBLE_DEVICES=0 python /zig_rir3d/run/run_training.py 3d_fullres unetr_pp_trainer_acdc 1 0
 
 ```

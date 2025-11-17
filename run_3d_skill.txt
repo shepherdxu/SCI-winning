@@ -1,0 +1,5 @@
+(SCI) PS F:\lzd\xhb\SCI> $env:unetr_pp_raw_data_base="F:\lzd\xhb\SCI\DATASET_Synapse\unetr_pp_raw\unetr_pp_raw_data"
+(SCI) PS F:\lzd\xhb\SCI> $env:RESULTS_FOLDER="F:\lzd\xhb\SCI\DATASET_Synapse\results"
+(SCI) PS F:\lzd\xhb\SCI> $env:unetr_pp_preprocessed="F:\lzd\xhb\SCI\DATASET_Synapse\unetr_pp_raw\unetr_pp_cropped_data"
+run in the x64 native tools command prompt for vs2022
+python -m zig_rir3d.run.run_training 3d_fullres unetr_pp_trainer_synapse 2 0

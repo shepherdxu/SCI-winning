@@ -33,7 +33,7 @@ from torch import nn
 from torch.cuda.amp import autocast
 from unetr_pp.training.learning_rate.poly_lr import poly_lr
 from batchgenerators.utilities.file_and_folder_operations import *
-from unetr_pp.network_architecture.ZRiR import Z_RiR
+from zig_rir3d.network_architecture.ZRiR import Z_RiR
 from fvcore.nn import FlopCountAnalysis
 
 

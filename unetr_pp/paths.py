@@ -30,8 +30,14 @@ preprocessing_output_dir = os.environ['unetr_pp_preprocessed'] if "unetr_pp_prep
 network_training_output_dir_base = os.path.join(os.environ['RESULTS_FOLDER']) if "RESULTS_FOLDER" in os.environ.keys() else None
 
 if base is not None:
-    nnFormer_raw_data = join(base, "unetr_pp_raw_data")
-    nnFormer_cropped_data = join(base, "unetr_pp_cropped_data")
+    # 根据你提供的标准结构，base 指向 '.../unetr_pp_raw'
+    # 而真正的原始数据在 '.../unetr_pp_raw/unetr_pp_raw_data' 里
+    nnFormer_raw_data = base
+
+    # 同样，cropped_data 在 '.../unetr_pp_raw/unetr_pp_cropped_data' 里
+    nnFormer_cropped_data = base
+
+    # 创建文件夹（如果它们不存在的话）
     maybe_mkdir_p(nnFormer_raw_data)
     maybe_mkdir_p(nnFormer_cropped_data)
 else:

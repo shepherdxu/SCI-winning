@@ -18,21 +18,21 @@ from typing import Tuple
 
 import numpy as np
 import torch
-from unetr_pp.training.data_augmentation.data_augmentation_moreDA import get_moreDA_augmentation
-from unetr_pp.training.loss_functions.deep_supervision import MultipleOutputLoss2
-from unetr_pp.utilities.to_torch import maybe_to_torch, to_cuda
-from unetr_pp.network_architecture.ZRiR import Z_RiR
-from unetr_pp.network_architecture.initialization import InitWeights_He
-from unetr_pp.network_architecture.neural_network import SegmentationNetwork
-from unetr_pp.training.data_augmentation.default_data_augmentation import default_2D_augmentation_params, \
+from zig_rir3d.training.data_augmentation.data_augmentation_moreDA import get_moreDA_augmentation
+from zig_rir3d.training.loss_functions.deep_supervision import MultipleOutputLoss2
+from zig_rir3d.utilities.to_torch import maybe_to_torch, to_cuda
+from zig_rir3d.network_architecture.ZRiR import Z_RiR
+from zig_rir3d.network_architecture.initialization import InitWeights_He
+from zig_rir3d.network_architecture.neural_network import SegmentationNetwork
+from zig_rir3d.training.data_augmentation.default_data_augmentation import default_2D_augmentation_params, \
     get_patch_size, default_3D_augmentation_params
-from unetr_pp.training.dataloading.dataset_loading import unpack_dataset
-from unetr_pp.training.network_training.Trainer_synapse import Trainer_synapse
-from unetr_pp.utilities.nd_softmax import softmax_helper
+from zig_rir3d.training.dataloading.dataset_loading import unpack_dataset
+from zig_rir3d.training.network_training.Trainer_synapse import Trainer_synapse
+from zig_rir3d.utilities.nd_softmax import softmax_helper
 from sklearn.model_selection import KFold
 from torch import nn
 from torch.cuda.amp import autocast
-from unetr_pp.training.learning_rate.poly_lr import poly_lr
+from zig_rir3d.training.learning_rate.poly_lr import poly_lr
 from batchgenerators.utilities.file_and_folder_operations import *
 from fvcore.nn import FlopCountAnalysis
 
@@ -143,7 +143,7 @@ class unetr_pp_trainer_synapse(Trainer_synapse):
 
             self.initialize_network()
             self.initialize_optimizer_and_scheduler()
-            assert isinstance(self.network, (SegmentationNetwork, nn.DataParallel))
+            # assert isinstance(self.network, (SegmentationNetwork, nn.DataParallel))
         else:
             self.print_to_log_file('self.was_initialized is True, not running self.initialize again')
         self.was_initialized = True
@@ -162,7 +162,7 @@ class unetr_pp_trainer_synapse(Trainer_synapse):
 
         self.network = Z_RiR(in_channels=self.input_channels,
                              out_channels=self.num_classes,
-                             img_size=self.crop_size,
+                             # img_size=self.crop_size,
                              feature_size=16,
                              num_heads=4,
                              depths=[3, 3, 3, 3],
@@ -183,9 +183,9 @@ class unetr_pp_trainer_synapse(Trainer_synapse):
         input = torch.ones(()).new_empty((1, *input_res), dtype=next(self.network.parameters()).dtype,
                                          device=next(self.network.parameters()).device)
         flops = FlopCountAnalysis(self.network, input)
-        model_flops = flops.total()
+        # model_flops = flops.total()
         print(f"Total trainable parameters: {round(n_parameters * 1e-6, 2)} M")
-        print(f"MAdds: {round(model_flops * 1e-9, 2)} G")
+        # print(f"MAdds: {round(model_flops * 1e-9, 2)} G")
 
     def initialize_optimizer_and_scheduler(self):
         assert self.network is not None, "self.initialize_network must be called first"

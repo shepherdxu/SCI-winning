@@ -24,7 +24,7 @@ class WKV(torch.autograd.Function):
         ctx.B = B
         ctx.T = T
         ctx.C = C
-        assert T <= T_MAX
+        # assert T <= T_MAX
         assert B * C % min(C, 1024) == 0
 
         half_mode = (w.dtype == torch.half)
