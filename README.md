@@ -42,3 +42,4 @@ DATASET_Synapse
 ```cmd
 python -m zig_rir3d.run.run_training 3d_fullres unetr_pp_trainer_synapse 2 0
 ```
+注意在x64 native tools cmd中运行。若您的IDE终端可以运行，则可以直接运行`run_training.py`文件。若出现cl.exe does not exist，则需打开该窗口。
