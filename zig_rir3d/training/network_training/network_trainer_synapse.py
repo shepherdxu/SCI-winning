@@ -688,7 +688,6 @@ class NetworkTrainer_synapse(object):
 
         if run_online_evaluation:
             self.run_online_evaluation(output, target)
-
         del target
 
         return l.detach().cpu().numpy()

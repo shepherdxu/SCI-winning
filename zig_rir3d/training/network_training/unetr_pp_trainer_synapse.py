@@ -46,7 +46,7 @@ class unetr_pp_trainer_synapse(Trainer_synapse):
                  unpack_data=True, deterministic=True, fp16=False):
         super().__init__(plans_file, fold, output_folder, dataset_directory, batch_dice, stage, unpack_data,
                          deterministic, fp16)
-        self.max_num_epochs = 1000
+        self.max_num_epochs = 500
         self.initial_lr = 1e-2
         self.deep_supervision_scales = None
         self.ds_loss_weights = None
@@ -185,6 +185,7 @@ class unetr_pp_trainer_synapse(Trainer_synapse):
         flops = FlopCountAnalysis(self.network, input)
         # model_flops = flops.total()
         print(f"Total trainable parameters: {round(n_parameters * 1e-6, 2)} M")
+        print('[GPU] network device:', next(self.network.parameters()).device)
         # print(f"MAdds: {round(model_flops * 1e-9, 2)} G")
 
     def initialize_optimizer_and_scheduler(self):

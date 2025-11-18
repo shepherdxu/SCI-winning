@@ -1,7 +1,7 @@
 from torch import nn
 from typing import Tuple, Union
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
-from unetr_pp.network_architecture.neural_network import SegmentationNetwork
+from zig_rir3d.network_architecture.neural_network import SegmentationNetwork
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -12,7 +12,7 @@ from einops import rearrange, repeat
 
 
 up_kwargs = {'mode': 'bilinear', 'align_corners': True}
-T_MAX = 512*64
+T_MAX = 65536
 from torch.utils.cpp_extension import load
 wkv_cuda = load(name="wkv", sources=["./cuda/wkv_op.cpp", "./cuda/wkv_cuda.cu"],
                 verbose=True, extra_cuda_cflags=['-res-usage', '--maxrregcount=60', f'-DTmax={T_MAX}'])
@@ -24,7 +24,7 @@ class WKV(torch.autograd.Function):
         ctx.B = B
         ctx.T = T
         ctx.C = C
-        # assert T <= T_MAX
+        assert T <= T_MAX
         assert B * C % min(C, 1024) == 0
 
         half_mode = (w.dtype == torch.half)
@@ -78,6 +78,7 @@ class WKV(torch.autograd.Function):
 
 
 def RUN_CUDA(B, T, C, w, u, k, v):
+    # print('B={}, T={}, C={}'.format(B, T, C))
     return WKV.apply(B, T, C, w.cuda(), u.cuda(), k.cuda(), v.cuda())
 
 
