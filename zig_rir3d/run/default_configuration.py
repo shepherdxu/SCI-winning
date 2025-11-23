@@ -46,8 +46,7 @@ def get_default_configuration(network, task, network_trainer, plans_identifier=d
         pickle_file.close()
 
     elif task == 'Task002_Synapse':
-        plans['plans_per_stage'][Stage]['batch_size'] = 4
-        plans['plans_per_stage'][0]['batch_size'] = 4  # stage0和1的batch_size均改为4
+        plans['plans_per_stage'][Stage]['batch_size'] = 2
         plans['plans_per_stage'][Stage]['patch_size'] = np.array([64, 192, 192])
         plans['plans_per_stage'][Stage]['pool_op_kernel_sizes'] = [[2, 2, 2], [2, 2, 2],
                                                                    [2, 2, 2]]  # for deep supervision

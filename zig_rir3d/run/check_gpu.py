@@ -1,5 +1,11 @@
-# check_gpu.py
-import torch, sys, os
-print('torch.cuda.is_available():', torch.cuda.is_available())
-print('current_device:', torch.cuda.current_device() if torch.cuda.is_available() else 'None')
-print('device_name:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'None')
+import torch
+import os
+
+print("CUDA available:", torch.cuda.is_available())
+print("Device count:", torch.cuda.device_count())
+print("Current device:", torch.cuda.current_device())
+
+for i in range(torch.cuda.device_count()):
+    print(f"Device {i}: {torch.cuda.get_device_name(i)}")
+
+print("CUDA_VISIBLE_DEVICES:", os.environ.get("CUDA_VISIBLE_DEVICES", "Not set"))

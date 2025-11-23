@@ -1,3 +1,4 @@
+train:
 F:
 cd lzd/xhb/SCI/
 conda activate SCI
@@ -5,3 +6,55 @@ set "unetr_pp_raw_data_base=F:\lzd\xhb\SCI\DATASET_Synapse\unetr_pp_raw\unetr_pp
 set "RESULTS_FOLDER=F:\lzd\xhb\SCI\DATASET_Synapse\results"
 set "unetr_pp_preprocessed=F:\lzd\xhb\SCI\DATASET_Synapse\unetr_pp_raw\unetr_pp_cropped_data"
 set CUDA_VISIBLE_DEVICES=1 & python -m zig_rir3d.run.run_training 3d_fullres unetr_pp_trainer_synapse 2 0
+
+
+evaluate:
+save model to
+zig_rir3d/evaluation/unetr_pp_synapse_checkpoint/unetr_pp/3d_fullres/Task002_Synapse/unetr_pp_trainer_synapse__unetr_pp_Plansv2.1/fold_0/
+then ,run
+set CUDA_VISIBLE_DEVICES=1 & python -m zig_rir3d.run.run_training 3d_fullres unetr_pp_trainer_synapse 2 0 --validation_only
+or:
+--validation_only
+只运行验证：跳过训练阶段，直接使用已经训练好的模型对验证集进行推理和评估。适用于：
+
+只想测试模型在验证集上的性能
+
+重新评估已训练模型
+
+调试验证流程
+
+--valbest
+使用最佳模型进行验证：通常与模型选择策略相关：
+
+使用训练过程中在验证集上表现最好的模型（而不是最后一个epoch的模型）
+
+自动加载 model_best 权重文件
+
+确保使用最优模型进行评估
+
+--val_folder VAL_FOLDER
+指定验证文件夹：
+
+可以自定义验证数据所在的文件夹路径
+
+用于在不同数据集或不同数据子集上进行验证
+
+例如：--val_folder my_custom_val_data
+
+--val_disable_overwrite
+禁用覆盖验证结果：
+
+防止覆盖已有的验证结果文件
+
+如果验证结果已存在，则跳过该部分的验证
+
+用于增量验证或避免意外覆盖
+
+使用建议：
+如果想只做验证不训练：用 --validation_only
+
+如果想用最佳模型验证：用 --valbest
+
+如果想验证特定数据：用 --val_folder 指定路径
+
+如果想保护已有结果：用 --val_disable_overwrite

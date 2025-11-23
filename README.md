@@ -43,3 +43,6 @@ DATASET_Synapse
 python -m zig_rir3d.run.run_training 3d_fullres unetr_pp_trainer_synapse 2 0
 ```
 注意在x64 native tools cmd中运行。若您的IDE终端可以运行，则可以直接运行`run_training.py`文件。若出现cl.exe does not exist，则需打开该窗口。
+
+原指标：
+90.35 ||  87.62 86.57 93.54 92.38 96.79 86.83 94.15 84.92
