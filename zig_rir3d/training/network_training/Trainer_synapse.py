@@ -25,20 +25,20 @@ import unetr_pp
 import numpy as np
 import torch
 from batchgenerators.utilities.file_and_folder_operations import *
-from unetr_pp.configuration import default_num_threads
-from unetr_pp.evaluation.evaluator import aggregate_scores
-from unetr_pp.inference.segmentation_export import save_segmentation_nifti_from_softmax
-from unetr_pp.network_architecture.generic_UNet import Generic_UNet
-from unetr_pp.network_architecture.initialization import InitWeights_He
-from unetr_pp.network_architecture.neural_network import SegmentationNetwork
-from unetr_pp.postprocessing.connected_components import determine_postprocessing
-from unetr_pp.training.data_augmentation.default_data_augmentation import default_3D_augmentation_params, \
+from zig_rir3d.configuration import default_num_threads
+from zig_rir3d.evaluation.evaluator import aggregate_scores
+from zig_rir3d.inference.segmentation_export import save_segmentation_nifti_from_softmax
+from zig_rir3d.network_architecture.generic_UNet import Generic_UNet
+from zig_rir3d.network_architecture.initialization import InitWeights_He
+from zig_rir3d.network_architecture.neural_network import SegmentationNetwork
+from zig_rir3d.postprocessing.connected_components import determine_postprocessing
+from zig_rir3d.training.data_augmentation.default_data_augmentation import default_3D_augmentation_params, \
     default_2D_augmentation_params, get_default_augmentation, get_patch_size
-from unetr_pp.training.dataloading.dataset_loading import load_dataset, DataLoader3D, DataLoader2D, unpack_dataset
-from unetr_pp.training.loss_functions.dice_loss import DC_and_CE_loss
-from unetr_pp.training.network_training.network_trainer_synapse import NetworkTrainer_synapse
-from unetr_pp.utilities.nd_softmax import softmax_helper
-from unetr_pp.utilities.tensor_utilities import sum_tensor
+from zig_rir3d.training.dataloading.dataset_loading import load_dataset, DataLoader3D, DataLoader2D, unpack_dataset
+from zig_rir3d.training.loss_functions.dice_loss import DC_and_CE_loss
+from zig_rir3d.training.network_training.network_trainer_synapse import NetworkTrainer_synapse
+from zig_rir3d.utilities.nd_softmax import softmax_helper
+from zig_rir3d.utilities.tensor_utilities import sum_tensor
 from torch import nn
 from torch.optim import lr_scheduler
 
@@ -513,8 +513,16 @@ class Trainer_synapse(NetworkTrainer_synapse):
                                                       "was done without mirroring"
 
         valid = list((SegmentationNetwork, nn.DataParallel))
-        assert isinstance(self.network, tuple(valid))
+        print(f"Network type: {type(self.network)}")
+        print(f"Valid types: {valid}")
 
+        # 在文件开头导入你的网络类
+        from zig_rir3d.network_architecture.ZRiR import Z_RiR
+
+        # 然后修改断言前的valid定义
+        valid = list(valid) + [Z_RiR]
+        assert isinstance(self.network, tuple(valid))
+        print(f"Network is in valid: {isinstance(self.network, tuple(valid))}")
         current_mode = self.network.training
         self.network.eval()
         ret = self.network.predict_3D(data, do_mirroring=do_mirroring, mirror_axes=mirror_axes,

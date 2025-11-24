@@ -1,13 +1,3 @@
-train:
-F:
-cd lzd/xhb/SCI/
-conda activate SCI
-set "unetr_pp_raw_data_base=F:\lzd\xhb\SCI\DATASET_Synapse\unetr_pp_raw\unetr_pp_raw_data"
-set "RESULTS_FOLDER=F:\lzd\xhb\SCI\DATASET_Synapse\results"
-set "unetr_pp_preprocessed=F:\lzd\xhb\SCI\DATASET_Synapse\unetr_pp_raw\unetr_pp_cropped_data"
-set CUDA_VISIBLE_DEVICES=1 & python -m zig_rir3d.run.run_training 3d_fullres unetr_pp_trainer_synapse 2 0
-
-
 evaluate:
 save model to
 zig_rir3d/evaluation/unetr_pp_synapse_checkpoint/unetr_pp/3d_fullres/Task002_Synapse/unetr_pp_trainer_synapse__unetr_pp_Plansv2.1/fold_0/

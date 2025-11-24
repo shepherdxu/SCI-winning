@@ -1,18 +1,3 @@
-#    Copyright 2020 Division of Medical Image Computing, German Cancer Research Center (DKFZ), Heidelberg, Germany
-#
-#    Licensed under the Apache License, Version 2.0 (the "License");
-#    you may not use this file except in compliance with the License.
-#    You may obtain a copy of the License at
-#
-#        http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS,
-#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#    See the License for the specific language governing permissions and
-#    limitations under the License.
-
-
 import collections
 import inspect
 import json
@@ -22,7 +7,7 @@ from multiprocessing.pool import Pool
 import numpy as np
 import pandas as pd
 import SimpleITK as sitk
-from unetr_pp.evaluation.metrics import ConfusionMatrix, ALL_METRICS
+from zig_rir3d.evaluation.metrics import ConfusionMatrix, ALL_METRICS
 from batchgenerators.utilities.file_and_folder_operations import save_json, subfiles, join
 from collections import OrderedDict
 
@@ -306,6 +291,25 @@ class NiftiEvaluator(Evaluator):
 def run_evaluation(args):
     test, ref, evaluator, metric_kwargs = args
     # evaluate
+    import os
+    # 添加文件名修正逻辑
+    if not os.path.exists(ref):
+        # 如果原始ref路径不存在，尝试将img前缀改为label前缀
+        ref_dir = os.path.dirname(ref)
+        ref_file = os.path.basename(ref)
+        # 将 imgXXXX.nii.gz 改为 labelXXXX.nii.gz
+        if ref_file.startswith('img') and ref_file.endswith('.nii.gz'):
+            case_id = ref_file[3:-7]  # 提取数字部分 (去掉"img"和".nii.gz")
+            new_ref = os.path.join(ref_dir, f'label{case_id}.nii.gz')
+            if os.path.exists(new_ref):
+                print(f"Info: Using {new_ref} instead of {ref}")
+                ref = new_ref
+            else:
+                print(f"Warning: Ground truth file not found: {ref} or {new_ref}")
+                return None
+        else:
+            print(f"Warning: Ground truth file not found: {ref}")
+            return None
     evaluator.set_test(test)
     evaluator.set_reference(ref)
     if evaluator.labels is None:

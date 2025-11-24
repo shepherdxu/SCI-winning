@@ -18,11 +18,11 @@ from copy import deepcopy
 from multiprocessing.pool import Pool
 
 import numpy as np
-from unetr_pp.configuration import default_num_threads
-from unetr_pp.evaluation.evaluator import aggregate_scores
+from zig_rir3d.configuration import default_num_threads
+from zig_rir3d.evaluation.evaluator import aggregate_scores
 from scipy.ndimage import label
 import SimpleITK as sitk
-from unetr_pp.utilities.sitk_stuff import copy_geometry
+from zig_rir3d.utilities.sitk_stuff import copy_geometry
 from batchgenerators.utilities.file_and_folder_operations import *
 import shutil
 
@@ -140,11 +140,11 @@ def determine_postprocessing(base, gt_labels_folder, raw_subfolder_name="validat
     classes = [int(i) for i in load_json(join(base, raw_subfolder_name, "summary.json"))['results']['mean'].keys() if
                int(i) != 0]
 
-    folder_all_classes_as_fg = join(base, temp_folder + "_allClasses")
+    folder_all_classes_as_fg = join(base, "validation_raw")
     folder_per_class = join(base, temp_folder + "_perClass")
 
-    if isdir(folder_all_classes_as_fg):
-        shutil.rmtree(folder_all_classes_as_fg)
+    # if isdir(folder_all_classes_as_fg):
+    #     shutil.rmtree(folder_all_classes_as_fg)
     if isdir(folder_per_class):
         shutil.rmtree(folder_per_class)
 
@@ -158,7 +158,7 @@ def determine_postprocessing(base, gt_labels_folder, raw_subfolder_name="validat
     fnames = subfiles(join(base, raw_subfolder_name), suffix=".nii.gz", join=False)
 
     # make output and temp dir
-    maybe_mkdir_p(folder_all_classes_as_fg)
+    # maybe_mkdir_p(folder_all_classes_as_fg)
     maybe_mkdir_p(folder_per_class)
     maybe_mkdir_p(join(base, final_subf_name))
 

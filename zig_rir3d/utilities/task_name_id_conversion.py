@@ -13,7 +13,7 @@
 #    limitations under the License.
 
 
-from unetr_pp.paths import nnFormer_raw_data, preprocessing_output_dir, nnFormer_cropped_data, network_training_output_dir
+from zig_rir3d.paths import nnFormer_raw_data, preprocessing_output_dir, nnFormer_cropped_data, network_training_output_dir
 from batchgenerators.utilities.file_and_folder_operations import *
 import numpy as np
 

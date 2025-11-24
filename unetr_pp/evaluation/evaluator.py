@@ -304,7 +304,26 @@ class NiftiEvaluator(Evaluator):
 
 
 def run_evaluation(args):
+    import os
     test, ref, evaluator, metric_kwargs = args
+    # 添加文件名修正逻辑
+    if not os.path.exists(ref):
+        # 如果原始ref路径不存在，尝试将img前缀改为label前缀
+        ref_dir = os.path.dirname(ref)
+        ref_file = os.path.basename(ref)
+        # 将 imgXXXX.nii.gz 改为 labelXXXX.nii.gz
+        if ref_file.startswith('img') and ref_file.endswith('.nii.gz'):
+            case_id = ref_file[3:-7]  # 提取数字部分 (去掉"img"和".nii.gz")
+            new_ref = os.path.join(ref_dir, f'label{case_id}.nii.gz')
+            if os.path.exists(new_ref):
+                print(f"Info: Using {new_ref} instead of {ref}")
+                ref = new_ref
+            else:
+                print(f"Warning: Ground truth file not found: {ref} or {new_ref}")
+                return None
+        else:
+            print(f"Warning: Ground truth file not found: {ref}")
+            return None
     # evaluate
     evaluator.set_test(test)
     evaluator.set_reference(ref)
