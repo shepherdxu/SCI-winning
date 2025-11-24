@@ -513,8 +513,16 @@ class Trainer_synapse(NetworkTrainer_synapse):
                                                       "was done without mirroring"
 
         valid = list((SegmentationNetwork, nn.DataParallel))
-        assert isinstance(self.network, tuple(valid))
+        print(f"Network type: {type(self.network)}")
+        print(f"Valid types: {valid}")
 
+        # 在文件开头导入你的网络类
+        from zig_rir3d.network_architecture.ZRiR import Z_RiR
+
+        # 然后修改断言前的valid定义
+        valid = list(valid) + [Z_RiR]
+        assert isinstance(self.network, tuple(valid))
+        print(f"Network is in valid: {isinstance(self.network, tuple(valid))}")
         current_mode = self.network.training
         self.network.eval()
         ret = self.network.predict_3D(data, do_mirroring=do_mirroring, mirror_axes=mirror_axes,
